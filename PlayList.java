@@ -80,10 +80,10 @@ class PlayList {
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
         int index = 0;
-
+        title.toLowerCase();
         for (int i = 0; i < this.size; i++){
             title = title.toLowerCase();
-            tracks[i].toString().toLowerCase();
+            tracks[i].getTitle().toLowerCase();
         if (title.equals(tracks[i].getTitle())) {
             return index = i;
         } else {
@@ -185,25 +185,28 @@ class PlayList {
      */
     private int minIndex(int start) {
 
-        if (start < 0 || start < this.size){
-            return -1;
-        }
-
+        // if (start < 0 || start < this.size){
+        //     return -1;
+        // }
+        if (start >= 0 && start <= size) {
         int minDuration = tracks[start].getDuration();
         int minIndex = start;
-        for (int i = 0; i < this.size; i++){
+        for (int i = start +1; i < this.size; i++){
             if (tracks[i].getDuration() < minDuration) {
                 minDuration = tracks[i].getDuration();
                 minIndex = i;
             }
+          }
+            return minIndex;
         }
-        return minIndex;
+        return -1;        
     }
+     
 
     /** Returns the title of the shortest track in this list. 
      *  If the list is empty, returns null. */
     public String titleOfShortestTrack() {
-        if (tracks[0] == null) { return null;}
+        // if (tracks[0] == null) { return null;}
 
         return tracks[minIndex(0)].getTitle();
     }
@@ -213,15 +216,11 @@ class PlayList {
      *  rather than returning a new, sorted playlist, the method sorts
      *  the list on which it was called (this list). */
     public void sortedInPlace() {        
-        for (int i = 0; i < size; i++){
-            int min = minIndex(i);
+        for (int i = 0; i < this.size; i++){
+            int minIn = minIndex(i);
             Track temp = tracks[i];
-            tracks[i] = tracks[min];
-            tracks[min] = temp;
+            tracks[i] = tracks[minIn];
+            tracks[minIn] = temp;
         }
-
-        // Uses the selection sort algorithm,  
-        // calling the minIndex method in each iteration.
-        //// replace this statement with your code
     }
 }
