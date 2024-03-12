@@ -39,22 +39,22 @@ class PlayList {
         if (maxSize <= size) {
             return false;
         }
-        if (maxSize > size) {
+        else{
             tracks[size] = track;
             size ++;
-        }
         return true;
+        }
     }
 
     /** Returns the data of this list, as a string. Each track appears in a separate line. */
     //// For an efficient implementation, use StringBuilder.
     public String toString() {
+
         StringBuilder myList = new StringBuilder();
-        
-        for (int i = 0; i < this.size; i++){
-        myList.append("/n" + tracks[i].toString());
+        for (int i = 0; i < this.size-1; i++){
+        myList.append("\n" + tracks[i].toString());
         }
-        return myList.toString();
+       return myList.toString();
     }
 
     /** Removes the last track from this list. If the list is empty, does nothing. */
@@ -79,18 +79,17 @@ class PlayList {
     /** Returns the index of the track with the given title in this list.
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
-        int index = 0;
-        title.toLowerCase();
+       
+       
         for (int i = 0; i < this.size; i++){
-            title = title.toLowerCase();
+            title.toLowerCase();
             tracks[i].getTitle().toLowerCase();
-        if (title.equals(tracks[i].getTitle())) {
-            return index = i;
-        } else {
-            return index = -1;
-        }
-     }
-        return index;
+        if (tracks[i].getTitle().equals(title)) {
+            return i;
+        } 
+    }
+    return -1;
+
     }
 
     /** Inserts the given track in index i of this list. For example, if the list is
@@ -104,14 +103,17 @@ class PlayList {
         if (maxSize <= this.size || i > size || i < 0) {
             return false;
         }
-        if (maxSize > this.size){
+        if (i ==size) {
+            tracks[size] = track;
+        return true;
+            }
 
+        
         for (int j = this.size; j > i; j--){
-            tracks[j+1] = tracks[j];
+            tracks[j] = tracks[j-1];
         }
         tracks[i] = track;
         size++;
-    }
         return true;
     }
      
@@ -170,8 +172,8 @@ class PlayList {
 
        if ((listSize + this.size) <= this.maxSize) {
         for (int i = 0; i < listSize; i++){
-        this.add(other.tracks[i]); // check
-        // this.tracks[size+1] = other.tracks[i];
+        // this.add(other.tracks[i]); // check
+        this.tracks[size+1] = other.tracks[i];
         }
         size = this.size + listSize;
     }
