@@ -36,13 +36,13 @@ class PlayList {
      *  Otherwise, appends the track and returns true. */
     public boolean add(Track track) {
 
-        if (maxSize <= size) {
+        if (maxSize == size) {
             return false;
         }
-        else{
+        else {
             tracks[size] = track;
             size ++;
-        return true;
+            return true;
         }
     }
 
@@ -51,10 +51,12 @@ class PlayList {
     public String toString() {
 
         StringBuilder myList = new StringBuilder();
-        for (int i = 0; i < this.size-1; i++){
-        myList.append("\n" + tracks[i].toString());
+        for (int i = 0; i < size; i++){
+            myList.append("\n");
+            myList.append(tracks[i].toString());
         }
-       return myList.toString();
+        String playlist = myList.toString();
+       return playlist;
     }
 
     /** Removes the last track from this list. If the list is empty, does nothing. */
@@ -103,12 +105,12 @@ class PlayList {
         if (maxSize <= this.size || i > size || i < 0) {
             return false;
         }
-        if (i ==size) {
+        if (i == size) {
             tracks[size] = track;
-        return true;
+            size++;
+            return true;
             }
 
-        
         for (int j = this.size; j > i; j--){
             tracks[j] = tracks[j-1];
         }
@@ -123,11 +125,11 @@ class PlayList {
     public void remove(int i) {
 
     if (this.size != 0 && i < size && i >= 0) {
-        tracks[i] = null;
+        // tracks[i] = null;
         for (int j = i; j < size -1; j++) {   
             tracks[j] = tracks[j+1];
-            tracks[size -1] = null;
         }
+        tracks[size -1] = null;
         size --; 
         }
     }
@@ -142,8 +144,8 @@ class PlayList {
                 tracks[i] = null;
                 for (int j = i; j < size -1; j++) {   
                     tracks[j] = tracks[j+1];
-                    tracks[size - 1] = null;
                 }
+                tracks[size - 1] = null;
                 size --; 
                 break; /// check
                 }
@@ -157,8 +159,8 @@ class PlayList {
             tracks[0] = null;
             for (int j = 0; j < size -1; j++) {   
                 tracks[j] = tracks[j+1];
-                tracks[size-1] = null;
             }
+            tracks[size-1] = null;
             size --; 
             }
         }
@@ -186,10 +188,6 @@ class PlayList {
      *  If start is negative or greater than size - 1, returns -1.
      */
     private int minIndex(int start) {
-
-        // if (start < 0 || start < this.size){
-        //     return -1;
-        // }
         if (start >= 0 && start <= size) {
         int minDuration = tracks[start].getDuration();
         int minIndex = start;
@@ -204,19 +202,13 @@ class PlayList {
         return -1;        
     }
      
-
     /** Returns the title of the shortest track in this list. 
      *  If the list is empty, returns null. */
     public String titleOfShortestTrack() {
         // if (tracks[0] == null) { return null;}
-
         return tracks[minIndex(0)].getTitle();
     }
 
-    /** Sorts this list by increasing duration order: Tracks with shorter
-     *  durations will appear first. The sort is done in-place. In other words,
-     *  rather than returning a new, sorted playlist, the method sorts
-     *  the list on which it was called (this list). */
     public void sortedInPlace() {        
         for (int i = 0; i < this.size; i++){
             int minIn = minIndex(i);
